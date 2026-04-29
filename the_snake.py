@@ -1,8 +1,7 @@
 import sys
 import random
 import pygame
-
-# Константы
+#константы
 SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
 GRID_SIZE = 20
 GRID_WIDTH = SCREEN_WIDTH // GRID_SIZE
@@ -28,6 +27,7 @@ class GameObject:
         self.body_color = body_color
 
     def draw(self, surface):
+        """Метод отрисовки."""
         raise NotImplementedError
 
 
@@ -41,6 +41,7 @@ class Snake(GameObject):
         self.grow = False
 
     def move(self):
+        """Движение змейки."""
         head = self.positions[0]
         new_head = (
             (head[0] + self.direction[0]) % GRID_WIDTH,
@@ -60,6 +61,7 @@ class Snake(GameObject):
         return True
 
     def draw(self, surface):
+        """Отрисовка змейки."""
         for segment in self.positions:
             rect = pygame.Rect(
                 segment[0] * GRID_SIZE,
@@ -70,10 +72,12 @@ class Snake(GameObject):
             pygame.draw.rect(surface, SNAKE_COLOR, rect)
 
     def update_direction(self, new_direction):
+        """Обновление направления."""
         if (new_direction[0] * -1, new_direction[1] * -1) != self.direction:
             self.direction = new_direction
 
     def get_head_position(self):
+        """Позиция головы."""
         return self.positions[0]
 
 
@@ -85,12 +89,14 @@ class Apple(GameObject):
         self.randomize_position()
 
     def randomize_position(self):
+        """Случайная позиция."""
         self.position = (
             random.randint(0, GRID_WIDTH - 1),
             random.randint(0, GRID_HEIGHT - 1),
         )
 
     def draw(self, surface):
+        """Отрисовка яблока."""
         rect = pygame.Rect(
             self.position[0] * GRID_SIZE,
             self.position[1] * GRID_SIZE,
@@ -101,6 +107,7 @@ class Apple(GameObject):
 
 
 def main():
+    """Основной цикл игры."""
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
