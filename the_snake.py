@@ -153,7 +153,7 @@ class Apple(GameObject):
 
 
 def draw_game_area(snake, apple, bombs):
-    """Игровое поле"""
+    """Игровое поле."""
     screen.fill(BOARD_BACKGROUND_COLOR)
     for segment in snake.positions:
         snake.draw_cell(segment)
@@ -163,6 +163,17 @@ def draw_game_area(snake, apple, bombs):
     if apple.position is not None:
         apple.draw()
 
+def draw_info_area(score):
+    """Информационное поле."""
+    info_area = pg.Rect(SCREEN_WIDTH - 400, 0, 400, SCREEN_HEIGHT)
+    pg.draw.rect(screen, LIGHT_GRAY, info_area)
+    y = 10
+    for text in INSTRUCTION_TEXT:
+        if "{}" in text:
+            text = text.format(score)
+        line = FONT.render(text, True, BLACK)
+        screen.blit(line, (SCREEN_WIDTH - 390, y))
+        y += 30
 
 def main():
     # Инициализация PyGame:
