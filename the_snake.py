@@ -21,7 +21,7 @@ SPEED = 20
 
 
 class GameObject:
-    """Базовый класс"""
+    """Базовый класс."""
 
     def __init__(self, position=None, body_color=(255, 255, 255)):
         self.position = position or (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
@@ -32,7 +32,7 @@ class GameObject:
 
 
 class Snake(GameObject):
-    """Класс змейки"""
+    """Класс змейки."""
 
     def __init__(self):
         super().__init__()
@@ -78,7 +78,7 @@ class Snake(GameObject):
 
 
 class Apple(GameObject):
-    """Класс яблока"""
+    """Класс яблока."""
 
     def __init__(self):
         super().__init__(body_color=APPLE_COLOR)
