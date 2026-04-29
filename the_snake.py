@@ -163,6 +163,36 @@ def draw_game_area(snake, apple, bombs):
     if apple.position is not None:
         apple.draw()
 
+
+def reset_game(snake, apple, bombs):
+    """Сброс игры."""
+    global score, frame_delay, apples_eaten
+    score = 0
+    frame_delay = 100
+    apples_eaten = 0
+    snake.reset()
+    bombs.clear()
+    occupied_cells = [*snake.positions, *(bomb.position for bomb in bombs)]
+    apple.randomize_position(occupied_cells)
+
+
+def game_over(collision_type):
+    """Сценарий завершения игры"""
+    font = pg.font.Font(None, 36)
+    if collision_type == "bomb":
+        # Фанатам Скорпиона из Mortal Kombat посвящается
+        text = font.render("Game over here! Отрава wins. Try again", True, RED)
+    elif collision_type == "self":
+        text = font.render("Game over here! Try again", True, RED)
+
+    text_x = (SCREEN_WIDTH - INFO_AREA_WIDTH) // 2 - text.get_width() // 2
+    text_y = SCREEN_HEIGHT // 2 - text.get_height() // 2
+    screen.blit(text, (text_x, text_y))
+    pg.display.flip()
+    pg.time.delay(2000)
+
+    reset_game(snake, apple, bombs)
+    
 def draw_info_area(score):
     """Информационное поле."""
     info_area = pg.Rect(SCREEN_WIDTH - 400, 0, 400, SCREEN_HEIGHT)
