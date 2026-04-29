@@ -65,6 +65,57 @@ class GameObject:
         pass
 
 
+class Snake(GameObject):
+    """Наследуемый класс змейки."""
+
+    def __init__(self):
+        super().__init__(DARK_GREEN)
+        self.positions = [(GRID_WIDTH // 2, GRID_HEIGHT // 2)]
+        self.direction = random.choice([UP, DOWN, LEFT, RIGHT])
+        self.grow = False
+
+    def move(self):
+        """Инициализация движения."""
+        head = self.positions[0]
+        new_head = ((head[0] + self.direction[0]) % GRID_WIDTH,
+                    (head[1] + self.direction[1]) % GRID_HEIGHT)
+
+        if new_head in self.positions[4:]:
+            game_over("self")
+            return False
+
+        self.positions.insert(0, new_head)
+        if not self.grow:
+            self.positions.pop()
+        else:
+            self.grow = False
+
+    def draw(self):
+        """Отрисовка на игровом поле."""
+        for segment in self.positions:
+            self.draw_cell(segment)
+
+    def update_direction(self, new_direction):
+        """Смена направления движения змейки."""
+        if (-new_direction[0], -new_direction[1]) != self.direction:
+            self.direction = new_direction
+
+    def reset(self):
+        """Сброс параметров змейки."""
+        self.positions = [(GRID_WIDTH // 2, GRID_HEIGHT // 2)]
+        self.direction = RIGHT
+
+    def get_head_position(self):
+        """Получить координаты головы змейки."""
+        return self.positions[0]
+
+    def length(self):
+        """Получить длину змейки."""
+        return len(self.positions)
+
+
+
+
 
 class Apple(GameObject):
     """
